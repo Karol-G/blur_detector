@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from BlurDetector import BlurDetector
+from blur_detector.BlurDetector import BlurDetector
 
 if __name__ == '__main__':
     img = cv2.imread('images/motion0138.jpg', 0)

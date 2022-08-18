@@ -9,11 +9,9 @@
 
 import cv2
 import numpy as np
-import os
 from skimage.filters.rank import entropy
 from skimage.morphology import square
 import copy
-import time
 from tqdm import tqdm
 
 class BlurDetector(object):
