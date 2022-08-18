@@ -1,1 +1,1 @@
-from BlurDetector import BlurDetector
+from .BlurDetector import BlurDetector

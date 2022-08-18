@@ -1,2 +1,6 @@
 .idea/
 venv/
+
+blur_detector.egg-info/
+
+blur_detector/__pycache__/
