@@ -15,7 +15,7 @@ import copy
 from tqdm import tqdm
 
 class BlurDetector(object):
-    def __init__(self, downsampling_factor=4, num_scales=4, scale_start=3, entropy_filt_kernel_sze=7, sigma_s_RF_filter=15, sigma_r_RF_filter=0.25, num_iterations_RF_filter=3):
+    def __init__(self, downsampling_factor=4, num_scales=4, scale_start=3, entropy_filt_kernel_sze=7, sigma_s_RF_filter=15, sigma_r_RF_filter=0.25, num_iterations_RF_filter=3, progressbar=True):
         self.downsampling_factor = downsampling_factor
         self.num_scales = num_scales
         self.scale_start = scale_start
@@ -27,6 +27,7 @@ class BlurDetector(object):
         self.__freqBands = []
         self.__dct_matrices = []
         self.freq_index = []
+        self.progressbar = progressbar
 
     def createScalePyramid(self):
         scales = []
@@ -175,7 +176,7 @@ class BlurDetector(object):
 
         iter = 0
         n = 0
-        for i in tqdm(range(int(max(self.scales)/2), rows - int(max(self.scales)/2), self.downsampling_factor)):
+        for i in tqdm(range(int(max(self.scales)/2), rows - int(max(self.scales)/2), self.downsampling_factor), disable=not self.progressbar):
             m = 0
             n += 1
             for j in range(int(max(self.scales) / 2), cols - int(max(self.scales) / 2), self.downsampling_factor):
