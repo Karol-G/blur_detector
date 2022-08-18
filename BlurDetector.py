@@ -14,6 +14,7 @@ from skimage.filters.rank import entropy
 from skimage.morphology import square
 import copy
 import time
+from tqdm import tqdm
 
 class BlurDetector(object):
     def __init__(self, downsampling_factor=4, num_scales=4, scale_start=3, entropy_filt_kernel_sze=7, sigma_s_RF_filter=15, sigma_r_RF_filter=0.25, num_iterations_RF_filter=3):
@@ -28,26 +29,6 @@ class BlurDetector(object):
         self.__freqBands = []
         self.__dct_matrices = []
         self.freq_index = []
-
-    def disp_progress(self, i, rows, old_progress):
-        progress_dict = {10:'[|                  ] 10%',
-                         20:'[| |                ] 20%',
-                         30:'[| | |              ] 30%',
-                         40:'[| | | |            ] 40%',
-                         50:'[| | | | |          ] 50%',
-                         60:'[| | | | | |        ] 60%',
-                         70:'[| | | | | | |      ] 70%',
-                         80:'[| | | | | | | |    ] 80%',
-                         90:'[| | | | | | | | |  ] 90%',
-                         100:'[| | | | | | | | | |] 100%'}
-
-        i_done = i / rows * 100;
-        p_done = round(i_done / 10) * 10;
-        if(p_done != old_progress):
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(progress_dict[p_done])
-            old_progress = p_done
-        return(p_done)
 
     def createScalePyramid(self):
         scales = []
@@ -196,9 +177,7 @@ class BlurDetector(object):
 
         iter = 0
         n = 0
-        old_progress = 0
-        for i in range(int(max(self.scales)/2), rows - int(max(self.scales)/2), self.downsampling_factor):
-            old_progress = self.disp_progress(i, rows, old_progress)
+        for i in tqdm(range(int(max(self.scales)/2), rows - int(max(self.scales)/2), self.downsampling_factor)):
             m = 0
             n += 1
             for j in range(int(max(self.scales) / 2), cols - int(max(self.scales) / 2), self.downsampling_factor):
